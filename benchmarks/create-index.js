@@ -46,9 +46,9 @@ function runTests() {
     .add("js-worker-search:latest", () => {
       buildIndex(JsSearchLatest);
     })
-    .add("js-worker-search:local", () => {
-      buildIndex(JsSearchLocal);
-    })
+    // .add("js-worker-search:local", () => {
+    //   buildIndex(JsSearchLocal);
+    // })
     .run({ async: true });
 }
 

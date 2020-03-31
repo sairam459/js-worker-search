@@ -10,13 +10,11 @@
   },
   "homepage": "https://github.com/bvaughn/js-worker-search#readme",
   "scripts": {
-    "build": "yarn run clean && NODE_ENV=production webpack --config webpack.config.dist.js --bail",
+    "build": "NODE_ENV=production webpack --config webpack.config.dist.js --bail",
     "clean": "rimraf dist",
     "flow": "flow src",
     "lint": "eslint 'src/**/*.js'",
-    "prebuild": "yarn run lint",
-    "prepublish": "yarn run build",
-    "pretest": "yarn run flow && yarn run prettier && yarn run lint",
+    
     "prettier": "prettier --write '{src/**,.}/*.js'",
     "start": "watch 'clear && yarn run lint -s && yarn run test -s' src",
     "test": "jest"

@@ -3,6 +3,7 @@ const bb = require("beautify-benchmark");
 const lunr = require("lunr");
 const JsSearchLatest = require("js-worker-search").default;
 const JsSearchLocal = require("../dist/js-worker-search").default;
+const matchSorter = require("match-sorter").default;
 
 const indexMode = "EXACT_WORDS";
 
@@ -32,7 +33,12 @@ function setupTest() {
 
   searchLatest = buildIndex(JsSearchLatest);
   searchLocal = buildIndex(JsSearchLocal);
-
+  console.time();
+  doSearch(searchLatest);
+  console.timeEnd();
+  console.time();
+  ms();
+  console.timeEnd();
   runTests();
 }
 
@@ -52,6 +58,11 @@ function doSearch(search) {
     search.search(searchTerms[i]);
   }
 }
+function ms() {
+  for (var i = 0, length = searchTermsLength; i < length; i++) {
+    matchSorter(books, searchTerms[i], { keys: ["title", "author"] });
+  }
+}
 
 function runTests() {
   console.log("Testing search speeds ...");
@@ -69,8 +80,11 @@ function runTests() {
     .add("js-search:latest", () => {
       doSearch(searchLatest);
     })
-    .add("js-search:local", () => {
-      doSearch(searchLocal);
+    // .add("js-search:local", () => {
+    //   doSearch(searchLocal);
+    // })
+    .add("match-sorter", () => {
+      ms();
     })
     .run({ async: true });
 }
